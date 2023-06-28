@@ -1,3 +1,4 @@
+import { verifyNameExists } from './../middlewares/verifyNameExists.middleware';
 import { moviesCreateSchema, moviesUpdateSchema } from './../schemas/movies.schemas';
 import { verifyIdExists } from './../middlewares/verifyIdExists.middleware';
 import { validateBody } from './../middlewares/validateBody.middleware';
@@ -7,10 +8,10 @@ import pagination from '../middlewares/pagination.middleware';
 
 export const moviesRouter:Router = Router()
 
-moviesRouter.post("", validateBody(moviesCreateSchema), createController)
+moviesRouter.post("", verifyNameExists, validateBody(moviesCreateSchema), createController)
 moviesRouter.get("", pagination, readController)
 
 moviesRouter.use("/:id", verifyIdExists)
 
-moviesRouter.patch("/:id", validateBody(moviesUpdateSchema), updateController)
+moviesRouter.patch("/:id", verifyNameExists, validateBody(moviesUpdateSchema), updateController)
 moviesRouter.delete("/:id", destroyController)

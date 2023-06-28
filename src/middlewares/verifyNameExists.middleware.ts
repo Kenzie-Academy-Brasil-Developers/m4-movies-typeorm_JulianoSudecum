@@ -4,13 +4,15 @@ import { MovieRepo } from './../interfaces/movies.interfaces';
 import { NextFunction, Request, Response } from "express";
 import { Movie } from '../entities';
 
-export const verifyNameExists = async (req: Request, res: Response, next: NextFunction):Promise<void> => {
+export const verifyNameExists = async (req: Request, res: Response, next: NextFunction) => {
     
     const { name } = req.body
     const repo: MovieRepo = AppDataSource.getRepository(Movie)
     const movie:Movie | null = await repo.findOneBy({name: name})
 
-    if(movie) throw new AppError("Name already exists", 409)
+    if(movie){
+        return res.status(409).json({message: "Name already exists"})
+    }
     
     return next()
 }
