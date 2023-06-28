@@ -9,7 +9,7 @@ class Movie {
     @Column({length: 50, unique:true})
     name: string
 
-    @Column({nullable: true})
+    @Column({nullable: true, default:null})
     description: string
 
     @Column({})

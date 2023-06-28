@@ -1,3 +1,4 @@
+import { Pagination } from './../interfaces/pagination.interfaces';
 import { MovieRead, MovieUpdate } from './../interfaces/movies.interfaces';
 import { Request, Response } from "express"
 import { Movie } from "../entities"
@@ -9,12 +10,13 @@ export const createController = async(req: Request, res:Response):Promise<Respon
 }
 
 export const readController = async(req: Request, res:Response):Promise<Response> => {
-    const movie:MovieRead = await read()
-    return res.status(200).json(movie)
+    
+    const pagination:Pagination = await read(res.locals.pagination)
+    return res.status(200).json(pagination)
 }
 
 export const updateController = async(req: Request, res:Response):Promise<Response> => {
-    const movie = await update(res.locals.movie, req.body)
+    const movie:MovieUpdate = await update(res.locals.movie, req.body)
     return res.status(200).json(movie)
 }
 
