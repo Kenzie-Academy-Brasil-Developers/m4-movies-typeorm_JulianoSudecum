@@ -1,3 +1,4 @@
+import { Repository } from 'typeorm';
 import { Pagination, PaginationParams } from './../interfaces/pagination.interfaces';
 import { AppDataSource } from './../data-source';
 import { Movie } from '../entities';
@@ -28,15 +29,16 @@ export const read = async({page, perPage, order, sort, prevPage, nextPage}: Pagi
     }
 }
 
-export const update = async(movie:Movie, payload:MovieUpdate):Promise<Movie> => {
-    const repo: MovieRepo = AppDataSource.getRepository(Movie)
-    const movieUpdated:Movie = repo.create({...payload, ...movie})
-    await repo.save(movieUpdated)
+export const update = async(movieId:number, payload:MovieUpdate):Promise<Movie> => {
+    const repo:any = AppDataSource.getRepository(Movie)
+    const movieUpdated:Movie | null = await repo.findOneBy({id: movieId})
 
-    return movieUpdated
+    return await repo.save({...movieUpdated, ...payload})
 }
 
-export const destroy = async(movie: Movie) => {
-    const repo: MovieRepo = AppDataSource.getRepository(Movie)
-    await repo.remove(movie)
+export const destroy = async(movieId: number):Promise<void> => {
+    const repo:any = AppDataSource.getRepository(Movie)
+    const movieDelete:Movie | null = await repo.findOneBy({id: movieId})
+    
+    await repo.remove(movieDelete)
 }

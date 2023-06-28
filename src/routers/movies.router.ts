@@ -7,10 +7,10 @@ import pagination from '../middlewares/pagination.middleware';
 
 export const moviesRouter:Router = Router()
 
-moviesRouter.post("",validateBody(moviesCreateSchema) ,createController)
+moviesRouter.post("", validateBody(moviesCreateSchema), createController)
 moviesRouter.get("", pagination, readController)
 
-moviesRouter.use(verifyIdExists)
+moviesRouter.use("/:id", verifyIdExists)
 
 moviesRouter.patch("/:id", validateBody(moviesUpdateSchema), updateController)
 moviesRouter.delete("/:id", destroyController)

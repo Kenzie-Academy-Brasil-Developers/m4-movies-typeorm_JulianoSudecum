@@ -16,11 +16,13 @@ export const readController = async(req: Request, res:Response):Promise<Response
 }
 
 export const updateController = async(req: Request, res:Response):Promise<Response> => {
-    const movie:MovieUpdate = await update(res.locals.movie, req.body)
+    const movieId = parseInt(req.params.id)
+    const movie:MovieUpdate = await update(movieId, req.body)
+
     return res.status(200).json(movie)
 }
 
 export const destroyController = async(req: Request, res:Response):Promise<Response> => {
-    await destroy(res.locals.movie)
+    await destroy(parseInt(req.params.id))
     return res.status(204).json()
 }
