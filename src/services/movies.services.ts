@@ -11,10 +11,11 @@ export const create = async(payload:any):Promise<any> => {
     return movie
 }
 
-export const read = async({page, perPage, prevPage, nextPage}: PaginationParams):Promise<Pagination> => {
+export const read = async({page, perPage, order, sort, prevPage, nextPage}: PaginationParams):Promise<Pagination> => {
     const repo: MovieRepo = AppDataSource.getRepository(Movie)
 
     const [movies, count]:[Movie[], number] = await repo.findAndCount({
+        order: { [sort]: order },
         skip: page,
         take: perPage
     })

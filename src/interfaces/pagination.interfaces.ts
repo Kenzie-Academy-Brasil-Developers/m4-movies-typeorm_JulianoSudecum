@@ -11,6 +11,8 @@ export interface Pagination{
 export interface PaginationParams{
     page: number
     perPage: number
+    order: string
+    sort: string
     prevPage: string | null
     nextPage: string | null
 }
