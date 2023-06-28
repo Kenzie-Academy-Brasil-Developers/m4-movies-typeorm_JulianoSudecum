@@ -11,7 +11,7 @@ export const verifyNameExists = async (req: Request, res: Response, next: NextFu
     const movie:Movie | null = await repo.findOneBy({name: name})
 
     if(movie){
-        return res.status(409).json({message: "Name already exists"})
+        return res.status(409).json({message: "Movie already exists."})
     }
     
     return next()
