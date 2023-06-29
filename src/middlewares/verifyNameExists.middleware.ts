@@ -7,11 +7,13 @@ import { Movie } from '../entities';
 export const verifyNameExists = async (req: Request, res: Response, next: NextFunction) => {
     
     const { name } = req.body
-    const repo: MovieRepo = AppDataSource.getRepository(Movie)
-    const movie:Movie | null = await repo.findOneBy({name: name})
-
-    if(movie){
-        return res.status(409).json({message: "Movie already exists."})
+    
+    if(name){
+        const repo: MovieRepo = AppDataSource.getRepository(Movie)
+        const movie:Movie | null = await repo.findOneBy({name: name})
+        if(movie){
+            return res.status(409).json({message: "Movie already exists."})
+        }
     }
     
     return next()
